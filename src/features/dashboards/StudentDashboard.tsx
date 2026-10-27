@@ -146,39 +146,42 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ activeTab: i
   return (
     <div className="space-y-6">
       {/* WELCOME SECTION */}
-      <div className="bg-[#FFFDF8] rounded-3xl border border-[#E6D8C3] p-6 sm:p-8 shadow-xs">
+      <div className="bg-[#FFFCF5] rounded-3xl border border-[#D8C3A5] p-6 sm:p-8 shadow-xs">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FBF7EF] text-[#B58A3A] border border-[#E6D8C3] text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-[#C6A15B]"></span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF8E7] text-[#5A1E2D] border border-[#D8C3A5] text-xs font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#5A1E2D]"></span>
               <span>Student Hub</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1F1713]">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#2B211D]">
               {getTimeGreeting()}, {user?.name}
             </h1>
-            <p className="text-xs sm:text-sm text-[#786B61] max-w-xl">
+            <p className="text-xs sm:text-sm text-[#857568] max-w-xl">
               Stay connected with everything happening on campus. Track your registered events, access digital passes, and view verified merit credentials.
             </p>
           </div>
 
-          <div className="text-right bg-[#FBF7EF] px-4 py-3 rounded-2xl border border-[#E6D8C3] shrink-0">
-            <div className="text-[10px] uppercase font-bold tracking-wider text-[#786B61]">Student Identification</div>
-            <div className="text-xs font-bold text-[#1F1713] mt-0.5">
+          <div className="text-right bg-[#FFF8E7] px-4 py-3 rounded-2xl border border-[#D8C3A5] shrink-0">
+            <div className="text-[10px] uppercase font-bold tracking-wider text-[#857568]">Student Identification</div>
+            <div className="text-xs font-bold text-[#2B211D] mt-0.5">
               {user?.profileInfo?.studentId || 'STU-2026'} • {user?.profileInfo?.department || 'Undergraduate'}
             </div>
+            {user?.collegeName && (
+              <div className="text-[10px] text-[#5A1E2D] font-medium mt-0.5">{user.collegeName}</div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Toast Notification */}
       {notification && (
-        <div className="p-4 rounded-2xl bg-[#71866F]/10 border border-[#71866F]/30 text-[#71866F] text-xs flex items-center justify-between font-semibold shadow-xs">
+        <div className="p-4 rounded-2xl bg-[#3D6A4E]/10 border border-[#3D6A4E]/30 text-[#3D6A4E] text-xs flex items-center justify-between font-semibold shadow-xs">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#71866F]" />
+            <CheckCircle2 className="w-4 h-4 text-[#3D6A4E]" />
             <span>{notification}</span>
           </div>
-          <button onClick={() => setNotification(null)} className="text-[#71866F] hover:opacity-75 cursor-pointer">
+          <button onClick={() => setNotification(null)} className="text-[#3D6A4E] hover:opacity-75 cursor-pointer">
             ✕
           </button>
         </div>
@@ -186,53 +189,53 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ activeTab: i
 
       {/* KPI METRIC CARDS */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-[#FFFDF8] border border-[#E6D8C3] shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-[#786B61]">
+        <div className="p-5 rounded-2xl bg-[#FFFCF5] border border-[#D8C3A5] shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-[#857568]">
             <span className="text-[11px] font-semibold uppercase tracking-wider">Registered Events</span>
-            <Ticket className="w-4 h-4 text-[#C6A15B]" />
+            <Ticket className="w-4 h-4 text-[#5A1E2D]" />
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-[#1F1713]">{registrations.length}</div>
-          <div className="text-[11px] text-[#71866F] font-medium">Digital passes issued</div>
+          <div className="text-2xl sm:text-3xl font-bold text-[#2B211D]">{registrations.length}</div>
+          <div className="text-[11px] text-[#3D6A4E] font-medium">Digital passes issued</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#FFFDF8] border border-[#E6D8C3] shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-[#786B61]">
+        <div className="p-5 rounded-2xl bg-[#FFFCF5] border border-[#D8C3A5] shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-[#857568]">
             <span className="text-[11px] font-semibold uppercase tracking-wider">Upcoming Events</span>
-            <Calendar className="w-4 h-4 text-[#C6A15B]" />
+            <Calendar className="w-4 h-4 text-[#5A1E2D]" />
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-[#1F1713]">
+          <div className="text-2xl sm:text-3xl font-bold text-[#2B211D]">
             {registrations.filter((r) => r.attendanceStatus !== 'Attended').length}
           </div>
-          <div className="text-[11px] text-[#786B61]">Scheduled on calendar</div>
+          <div className="text-[11px] text-[#857568]">Scheduled on calendar</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#FFFDF8] border border-[#E6D8C3] shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-[#786B61]">
+        <div className="p-5 rounded-2xl bg-[#FFFCF5] border border-[#D8C3A5] shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-[#857568]">
             <span className="text-[11px] font-semibold uppercase tracking-wider">Certificates</span>
-            <Award className="w-4 h-4 text-[#C6A15B]" />
+            <Award className="w-4 h-4 text-[#5A1E2D]" />
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-[#1F1713]">{certificates.length}</div>
-          <div className="text-[11px] text-[#71866F] font-medium">Verified credentials</div>
+          <div className="text-2xl sm:text-3xl font-bold text-[#2B211D]">{certificates.length}</div>
+          <div className="text-[11px] text-[#3D6A4E] font-medium">Verified credentials</div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#FFFDF8] border border-[#E6D8C3] shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-[#786B61]">
+        <div className="p-5 rounded-2xl bg-[#FFFCF5] border border-[#D8C3A5] shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-[#857568]">
             <span className="text-[11px] font-semibold uppercase tracking-wider">Bulletins</span>
-            <Megaphone className="w-4 h-4 text-[#B58A3A]" />
+            <Megaphone className="w-4 h-4 text-[#5A1E2D]" />
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-[#1F1713]">{announcements.length}</div>
-          <div className="text-[11px] text-[#786B61]">Campus notices</div>
+          <div className="text-2xl sm:text-3xl font-bold text-[#2B211D]">{announcements.length}</div>
+          <div className="text-[11px] text-[#857568]">Campus notices</div>
         </div>
       </div>
 
       {/* Tabs Selector */}
-      <div className="flex items-center gap-2 p-1 bg-[#FBF7EF] border border-[#E6D8C3] rounded-2xl w-fit">
+      <div className="flex items-center gap-2 p-1 bg-[#FFF8E7] border border-[#D8C3A5] rounded-2xl w-fit">
         <button
           onClick={() => setActiveTab('registrations')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === 'registrations'
-              ? 'bg-[#C6A15B] text-[#FFFDF8] shadow-2xs'
-              : 'text-[#786B61] hover:text-[#1F1713]'
+              ? 'bg-[#5A1E2D] text-[#FFF8E7] shadow-2xs'
+              : 'text-[#857568] hover:text-[#2B211D]'
           }`}
         >
           My Registrations ({registrations.length})
@@ -241,8 +244,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ activeTab: i
           onClick={() => setActiveTab('certificates')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === 'certificates'
-              ? 'bg-[#C6A15B] text-[#FFFDF8] shadow-2xs'
-              : 'text-[#786B61] hover:text-[#1F1713]'
+              ? 'bg-[#5A1E2D] text-[#FFF8E7] shadow-2xs'
+              : 'text-[#857568] hover:text-[#2B211D]'
           }`}
         >
           Certificates ({certificates.length})
@@ -251,8 +254,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ activeTab: i
           onClick={() => setActiveTab('results')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === 'results'
-              ? 'bg-[#C6A15B] text-[#FFFDF8] shadow-2xs'
-              : 'text-[#786B61] hover:text-[#1F1713]'
+              ? 'bg-[#5A1E2D] text-[#FFF8E7] shadow-2xs'
+              : 'text-[#857568] hover:text-[#2B211D]'
           }`}
         >
           Standings & Results ({results.length})
@@ -261,8 +264,8 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ activeTab: i
           onClick={() => setActiveTab('announcements')}
           className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
             activeTab === 'announcements'
-              ? 'bg-[#C6A15B] text-[#FFFDF8] shadow-2xs'
-              : 'text-[#786B61] hover:text-[#1F1713]'
+              ? 'bg-[#5A1E2D] text-[#FFF8E7] shadow-2xs'
+              : 'text-[#857568] hover:text-[#2B211D]'
           }`}
         >
           Bulletins ({announcements.length})

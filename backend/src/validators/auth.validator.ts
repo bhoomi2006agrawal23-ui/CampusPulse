@@ -16,7 +16,20 @@ export const registerSchema = z.object({
     .min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number'),
-  phoneNumber: z.string().trim().optional(),
+  phoneNumber: z
+    .string()
+    .trim()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        // Accept Indian mobile numbers: optional +91 or 91 or 0 prefix, followed by 10 digits starting with 6, 7, 8, or 9
+        const cleaned = val.replace(/[\s\-\(\)]/g, '');
+        return /^(\+?91|0)?[6-9]\d{9}$/.test(cleaned);
+      },
+      { message: 'Please enter a valid 10-digit Indian phone number (e.g. +91 98765 43210)' }
+    )
+    .optional()
+    .or(z.literal('')),
   collegeName: z
     .string()
     .trim()
@@ -32,8 +45,7 @@ export const loginSchema = z.object({
   email: z
     .string()
     .trim()
-    .toLowerCase()
-    .email('Invalid email address format'),
+    .min(3, 'Email or Login ID must be at least 3 characters'),
   password: z.string().min(1, 'Password is required'),
   role: z.enum(['Admin', 'Organizer', 'Judge', 'Volunteer', 'Student']).optional(),
   collegeName: z.string().trim().optional(),

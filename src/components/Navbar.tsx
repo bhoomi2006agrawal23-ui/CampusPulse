@@ -71,21 +71,21 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
   const getRoleBadgeStyle = (role?: string) => {
     switch (role) {
       case 'Admin':
-        return 'bg-[#FBF7EF] text-[#B58A3A] border-[#E6D8C3]';
+        return 'bg-[#FFF8E7] text-[#5A1E2D] border-[#D8C3A5] font-bold';
       case 'Organizer':
-        return 'bg-[#FBF7EF] text-[#C6A15B] border-[#E6D8C3]';
+        return 'bg-[#FFF8E7] text-[#5A1E2D] border-[#D8C3A5]';
       case 'Judge':
-        return 'bg-[#71866F]/10 text-[#71866F] border-[#71866F]/30';
+        return 'bg-[#3D6A4E]/10 text-[#3D6A4E] border-[#3D6A4E]/30';
       case 'Volunteer':
-        return 'bg-[#FBF7EF] text-[#5A463B] border-[#E6D8C3]';
+        return 'bg-[#FFF8E7] text-[#857568] border-[#D8C3A5]';
       default:
-        return 'bg-[#FBF7EF] text-[#786B61] border-[#E6D8C3]';
+        return 'bg-[#FFF8E7] text-[#5A1E2D] border-[#D8C3A5]';
     }
   };
 
   return (
     <>
-      <nav className="sticky top-0 z-50 bg-[#F7F0E3]/90 backdrop-blur-md border-b border-[#E6D8C3] text-[#2B211C]">
+      <nav className="sticky top-0 z-50 bg-[#FFF8E7]/95 backdrop-blur-md border-b border-[#D8C3A5] text-[#2B211D]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-18">
             {/* Brand Wordmark */}
@@ -93,27 +93,27 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
               onClick={() => setCurrentView('home')}
               className="flex items-center gap-2.5 cursor-pointer group"
             >
-              <div className="w-9 h-9 rounded-xl bg-[#C6A15B] text-[#FFFDF8] flex items-center justify-center shadow-xs group-hover:bg-[#B58A3A] transition-colors">
+              <div className="w-9 h-9 rounded-xl bg-[#5A1E2D] text-[#FFF8E7] flex items-center justify-center shadow-xs group-hover:bg-[#742A3D] transition-colors">
                 <Activity className="w-5 h-5" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold tracking-tight text-[#1F1713]">
-                  Campus<span className="text-[#C6A15B]">Pulse</span>
+                <span className="text-xl font-bold tracking-tight text-[#2B211D]">
+                  Campus<span className="text-[#5A1E2D]">Pulse</span>
                 </span>
-                <span className="text-[10px] tracking-wider uppercase text-[#786B61] font-medium hidden sm:block -mt-1">
+                <span className="text-[10px] tracking-wider uppercase text-[#857568] font-medium hidden sm:block -mt-1">
                   College Events
                 </span>
               </div>
             </div>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center gap-6 text-sm font-medium text-[#786B61]">
+            <div className="hidden md:flex items-center gap-6 text-sm font-medium text-[#857568]">
               <button
                 onClick={() => setCurrentView('home')}
                 className={`transition-colors cursor-pointer py-1.5 ${
                   currentView === 'home'
-                    ? 'text-[#1F1713] font-semibold border-b-2 border-[#C6A15B]'
-                    : 'hover:text-[#1F1713]'
+                    ? 'text-[#5A1E2D] font-bold border-b-2 border-[#5A1E2D]'
+                    : 'hover:text-[#2B211D]'
                 }`}
               >
                 Discover Events
@@ -122,8 +122,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                 onClick={() => setCurrentView('categories')}
                 className={`transition-colors cursor-pointer py-1.5 ${
                   currentView === 'categories'
-                    ? 'text-[#1F1713] font-semibold border-b-2 border-[#C6A15B]'
-                    : 'hover:text-[#1F1713]'
+                    ? 'text-[#5A1E2D] font-bold border-b-2 border-[#5A1E2D]'
+                    : 'hover:text-[#2B211D]'
                 }`}
               >
                 Categories
@@ -132,8 +132,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                 onClick={() => setCurrentView('venues')}
                 className={`transition-colors cursor-pointer py-1.5 ${
                   currentView === 'venues'
-                    ? 'text-[#1F1713] font-semibold border-b-2 border-[#C6A15B]'
-                    : 'hover:text-[#1F1713]'
+                    ? 'text-[#5A1E2D] font-bold border-b-2 border-[#5A1E2D]'
+                    : 'hover:text-[#2B211D]'
                 }`}
               >
                 Venues
@@ -141,9 +141,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
 
               <button
                 onClick={() => setVerifyModalOpen(true)}
-                className="hover:text-[#1F1713] transition-colors flex items-center gap-1.5 cursor-pointer text-[#786B61]"
+                className="hover:text-[#2B211D] transition-colors flex items-center gap-1.5 cursor-pointer text-[#857568]"
               >
-                <ShieldCheck className="w-4 h-4 text-[#71866F]" />
+                <ShieldCheck className="w-4 h-4 text-[#3D6A4E]" />
                 <span>Verify Credential</span>
               </button>
             </div>
@@ -156,12 +156,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                   <div className="relative">
                     <button
                       onClick={() => setNotificationsOpen(!notificationsOpen)}
-                      className="relative p-2.5 rounded-xl bg-[#FFFDF8] hover:bg-[#FBF7EF] border border-[#E6D8C3] text-[#786B61] hover:text-[#1F1713] transition-colors cursor-pointer shadow-2xs"
+                      className="relative p-2.5 rounded-xl bg-[#FFFCF5] hover:bg-[#FFF8E7] border border-[#D8C3A5] text-[#857568] hover:text-[#2B211D] transition-colors cursor-pointer shadow-2xs"
                       aria-label="Notifications"
                     >
                       <Bell className="w-4 h-4" />
                       {unreadCount > 0 && (
-                        <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C6A15B] text-white text-[9px] font-bold flex items-center justify-center animate-pulse">
+                        <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#5A1E2D] text-white text-[9px] font-bold flex items-center justify-center animate-pulse">
                           {unreadCount > 9 ? '9+' : unreadCount}
                         </span>
                       )}
@@ -169,12 +169,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
 
                     {/* Notifications Panel */}
                     {notificationsOpen && (
-                      <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#FFFDF8] border border-[#E6D8C3] rounded-2xl shadow-xl overflow-hidden z-50">
-                        <div className="p-3.5 px-4 bg-[#FBF7EF] border-b border-[#E6D8C3] flex items-center justify-between">
+                      <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#FFFCF5] border border-[#D8C3A5] rounded-2xl shadow-xl overflow-hidden z-50">
+                        <div className="p-3.5 px-4 bg-[#FFF8E7] border-b border-[#D8C3A5] flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-[#1F1713]">Notifications</span>
+                            <span className="text-xs font-bold text-[#2B211D]">Notifications</span>
                             {unreadCount > 0 && (
-                              <span className="px-2 py-0.5 bg-[#C6A15B]/15 text-[#B58A3A] text-[10px] font-semibold rounded-full">
+                              <span className="px-2 py-0.5 bg-[#5A1E2D]/10 text-[#5A1E2D] text-[10px] font-semibold rounded-full">
                                 {unreadCount} unread
                               </span>
                             )}
@@ -182,17 +182,17 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                           {unreadCount > 0 && (
                             <button
                               onClick={handleMarkAllRead}
-                              className="text-[11px] text-[#B58A3A] hover:text-[#C6A15B] font-medium flex items-center gap-1 cursor-pointer"
+                              className="text-[11px] text-[#5A1E2D] hover:text-[#742A3D] font-medium flex items-center gap-1 cursor-pointer"
                             >
                               <CheckCheck className="w-3.5 h-3.5" /> Mark all read
                             </button>
                           )}
                         </div>
 
-                        <div className="max-h-72 overflow-y-auto divide-y divide-[#E6D8C3]/60">
+                        <div className="max-h-72 overflow-y-auto divide-y divide-[#D8C3A5]/60">
                           {notifications.length === 0 ? (
-                            <div className="p-8 text-center text-xs text-[#786B61]">
-                              <Bell className="w-6 h-6 text-[#E6D8C3] mx-auto mb-2" />
+                            <div className="p-8 text-center text-xs text-[#857568]">
+                              <Bell className="w-6 h-6 text-[#D8C3A5] mx-auto mb-2" />
                               No notifications yet
                             </div>
                           ) : (
@@ -202,20 +202,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                                 <div
                                   key={nId}
                                   onClick={() => !n.isRead && handleMarkAsRead(nId)}
-                                  className={`p-3.5 px-4 transition-colors cursor-pointer hover:bg-[#FBF7EF] ${
-                                    !n.isRead ? 'bg-[#E2CF9F]/15 font-medium' : 'opacity-80'
+                                  className={`p-3.5 px-4 transition-colors cursor-pointer hover:bg-[#FFF8E7] ${
+                                    !n.isRead ? 'bg-[#D8C3A5]/20 font-medium' : 'opacity-80'
                                   }`}
                                 >
                                   <div className="flex items-start justify-between gap-2">
-                                    <div className="text-xs font-semibold text-[#1F1713]">{n.title}</div>
+                                    <div className="text-xs font-semibold text-[#2B211D]">{n.title}</div>
                                     {!n.isRead && (
-                                      <span className="w-2 h-2 rounded-full bg-[#C6A15B] shrink-0 mt-1" />
+                                      <span className="w-2 h-2 rounded-full bg-[#5A1E2D] shrink-0 mt-1" />
                                     )}
                                   </div>
-                                  <div className="text-[11px] text-[#786B61] mt-1 leading-snug">
+                                  <div className="text-[11px] text-[#857568] mt-1 leading-snug">
                                     {n.message}
                                   </div>
-                                  <div className="text-[9px] text-[#786B61]/70 mt-1.5 font-mono">
+                                  <div className="text-[9px] text-[#857568]/70 mt-1.5 font-mono">
                                     {new Date(n.createdAt).toLocaleTimeString([], {
                                       hour: '2-digit',
                                       minute: '2-digit',
@@ -242,14 +242,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                   </button>
 
                   <div className="text-right">
-                    <div className="text-xs font-semibold text-[#1F1713]">{user.name}</div>
-                    <div className="text-[11px] text-[#786B61]">{user.email}</div>
+                    <div className="text-xs font-semibold text-[#2B211D]">{user.name}</div>
+                    <div className="text-[11px] text-[#857568]">{user.loginId ? `@${user.loginId}` : user.email}</div>
                   </div>
 
                   <button
                     onClick={() => logout()}
                     title="Sign Out"
-                    className="p-2 rounded-xl bg-[#FFFDF8] hover:bg-[#FBF7EF] text-[#786B61] hover:text-[#A9675D] transition-colors border border-[#E6D8C3] cursor-pointer shadow-2xs"
+                    className="p-2 rounded-xl bg-[#FFFCF5] hover:bg-[#FFF8E7] text-[#857568] hover:text-[#8B2635] transition-colors border border-[#D8C3A5] cursor-pointer shadow-2xs"
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
@@ -258,13 +258,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                 <div className="flex items-center gap-2.5">
                   <button
                     onClick={() => setCurrentView('login')}
-                    className="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#786B61] hover:text-[#1F1713] hover:bg-[#FBF7EF] transition-colors cursor-pointer"
+                    className="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#857568] hover:text-[#2B211D] hover:bg-[#FFFCF5] transition-colors cursor-pointer"
                   >
                     Sign In
                   </button>
                   <button
                     onClick={() => setCurrentView('register')}
-                    className="px-4.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#C6A15B] hover:bg-[#B58A3A] text-[#FFFDF8] shadow-xs hover:shadow-md transition-all cursor-pointer"
+                    className="px-4.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#5A1E2D] hover:bg-[#742A3D] text-[#FFF8E7] shadow-xs hover:shadow-md transition-all cursor-pointer"
                   >
                     Join CampusPulse
                   </button>
@@ -276,14 +276,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
             <div className="md:hidden flex items-center gap-2">
               <button
                 onClick={() => setVerifyModalOpen(true)}
-                className="p-2 rounded-xl text-[#786B61] hover:text-[#1F1713] hover:bg-[#FBF7EF]"
+                className="p-2 rounded-xl text-[#857568] hover:text-[#2B211D] hover:bg-[#FFFCF5]"
                 aria-label="Verify Certificate"
               >
-                <ShieldCheck className="w-5 h-5 text-[#71866F]" />
+                <ShieldCheck className="w-5 h-5 text-[#3D6A4E]" />
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-xl text-[#786B61] hover:text-[#1F1713] hover:bg-[#FBF7EF]"
+                className="p-2 rounded-xl text-[#857568] hover:text-[#2B211D] hover:bg-[#FFFCF5]"
                 aria-label="Toggle mobile menu"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -294,13 +294,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
 
         {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden px-4 pt-2 pb-5 space-y-2.5 bg-[#FFFDF8] border-b border-[#E6D8C3] text-sm shadow-md animate-in fade-in">
+          <div className="md:hidden px-4 pt-2 pb-5 space-y-2.5 bg-[#FFFCF5] border-b border-[#D8C3A5] text-sm shadow-md animate-in fade-in">
             <button
               onClick={() => {
                 setCurrentView('home');
                 setMobileMenuOpen(false);
               }}
-              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FBF7EF] text-[#1F1713] font-medium"
+              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FFF8E7] text-[#2B211D] font-medium"
             >
               Discover Events
             </button>
@@ -309,7 +309,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                 setCurrentView('categories');
                 setMobileMenuOpen(false);
               }}
-              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FBF7EF] text-[#1F1713] font-medium"
+              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FFF8E7] text-[#2B211D] font-medium"
             >
               Categories
             </button>
@@ -318,7 +318,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                 setCurrentView('venues');
                 setMobileMenuOpen(false);
               }}
-              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FBF7EF] text-[#1F1713] font-medium"
+              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FFF8E7] text-[#2B211D] font-medium"
             >
               Venues
             </button>
@@ -327,47 +327,40 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                 setVerifyModalOpen(true);
                 setMobileMenuOpen(false);
               }}
-              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FBF7EF] text-[#71866F] font-medium flex items-center gap-2"
+              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#FFF8E7] text-[#3D6A4E] font-medium flex items-center gap-2"
             >
-              <ShieldCheck className="w-4 h-4" />
-              <span>Verify Credential</span>
+              <ShieldCheck className="w-4 h-4" /> Verify Credential
             </button>
 
             {user ? (
-              <div className="pt-3 border-t border-[#E6D8C3] space-y-2">
-                <div className="px-3 py-2 rounded-xl bg-[#FBF7EF]">
-                  <div className="text-xs font-bold text-[#1F1713]">{user.name}</div>
-                  <div className="text-[11px] text-[#786B61]">{user.email} • {user.role}</div>
-                </div>
-
+              <div className="pt-3 border-t border-[#D8C3A5]/60 space-y-2">
                 <button
                   onClick={() => {
                     setCurrentView('dashboard');
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full py-2.5 rounded-xl bg-[#C6A15B] text-[#FFFDF8] text-xs font-bold shadow-xs text-center"
+                  className="w-full text-left px-3 py-2 rounded-xl bg-[#5A1E2D] text-[#FFF8E7] font-semibold"
                 >
-                  Access {user.role} Dashboard
+                  Go to {user.role} Dashboard
                 </button>
-
                 <button
                   onClick={() => {
                     logout();
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full py-2 rounded-xl border border-[#E6D8C3] text-[#A9675D] text-xs font-medium hover:bg-[#FBF7EF] text-center"
+                  className="w-full text-left px-3 py-2 rounded-xl text-[#8B2635] font-medium"
                 >
                   Sign Out
                 </button>
               </div>
             ) : (
-              <div className="pt-3 border-t border-[#E6D8C3] flex gap-2">
+              <div className="pt-3 border-t border-[#D8C3A5]/60 flex gap-2">
                 <button
                   onClick={() => {
                     setCurrentView('login');
                     setMobileMenuOpen(false);
                   }}
-                  className="flex-1 py-2 rounded-xl border border-[#E6D8C3] text-xs font-semibold text-[#1F1713] text-center"
+                  className="flex-1 py-2 text-center text-xs font-semibold rounded-xl bg-[#FFF8E7] border border-[#D8C3A5]"
                 >
                   Sign In
                 </button>
@@ -376,7 +369,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
                     setCurrentView('register');
                     setMobileMenuOpen(false);
                   }}
-                  className="flex-1 py-2 rounded-xl bg-[#C6A15B] text-[#FFFDF8] text-xs font-bold text-center"
+                  className="flex-1 py-2 text-center text-xs font-bold rounded-xl bg-[#5A1E2D] text-[#FFF8E7]"
                 >
                   Register
                 </button>
@@ -386,11 +379,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, setCurrentView }) =
         )}
       </nav>
 
-      {/* Verify Credential Modal */}
-      <VerifyCertificateModal
-        isOpen={verifyModalOpen}
-        onClose={() => setVerifyModalOpen(false)}
-      />
+      {/* Verify Certificate Modal */}
+      {verifyModalOpen && (
+        <VerifyCertificateModal
+          isOpen={verifyModalOpen}
+          onClose={() => setVerifyModalOpen(false)}
+        />
+      )}
     </>
   );
 };

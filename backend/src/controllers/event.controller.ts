@@ -112,6 +112,34 @@ export class EventController {
   }
 
   /**
+   * DELETE /api/events/:id
+   * Delete or Cancel Event (Owner Organizer or Admin)
+   */
+  static async deleteEvent(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) {
+        sendError(res, 'UNAUTHORIZED', 'Authentication required', 401);
+        return;
+      }
+
+      const { id } = req.params;
+      const result = await EventService.deleteEvent(id, req.user);
+      sendSuccess(res, result, 200, result.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (message.startsWith('UNAUTHORIZED_EVENT_ACCESS')) {
+        sendError(res, 'FORBIDDEN', message.replace(/^UNAUTHORIZED_EVENT_ACCESS:\s*/, ''), 403);
+        return;
+      }
+      if (message.startsWith('EVENT_NOT_FOUND')) {
+        sendError(res, 'EVENT_NOT_FOUND', message.replace(/^EVENT_NOT_FOUND:\s*/, ''), 404);
+        return;
+      }
+      next(err);
+    }
+  }
+
+  /**
    * GET /api/events/:id
    * Get Event Details
    */

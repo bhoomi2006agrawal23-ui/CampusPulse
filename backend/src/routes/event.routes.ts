@@ -54,6 +54,14 @@ router.patch(
   EventController.updateStatus
 );
 
+// Delete or Cancel Event (Organizer Owner or Admin)
+router.delete(
+  '/:id',
+  authenticate,
+  requireOrganizerOrAdmin,
+  EventController.deleteEvent
+);
+
 // Student Event Registration
 router.post('/:id/register', authenticate, EventController.registerStudent);
 

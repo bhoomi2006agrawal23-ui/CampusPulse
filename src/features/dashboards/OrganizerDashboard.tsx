@@ -28,6 +28,7 @@ import {
   Megaphone,
   FileText,
   CheckSquare,
+  Trash2,
 } from 'lucide-react';
 
 interface OrganizerDashboardProps {
@@ -117,6 +118,28 @@ export const OrganizerDashboard: React.FC<OrganizerDashboardProps> = () => {
     setNotification(editingEvent ? 'Event updated successfully' : 'Event created successfully');
     fetchData();
     setTimeout(() => setNotification(null), 3500);
+  };
+
+  const handleDeleteEvent = async (ev: EventItem) => {
+    const evId = ev._id || ev.id || '';
+    const confirm = window.confirm(
+      `Are you sure you want to delete or cancel event "${ev.title}"?\n\nIf participants are already registered, the event will be safely transitioned to "Cancelled" to preserve records. If no one has registered yet, the draft event will be permanently deleted.`
+    );
+    if (!confirm) return;
+
+    setError(null);
+    const res = await apiClient<{ action: string; message: string; event?: any }>(
+      `/api/events/${evId}`,
+      { method: 'DELETE' }
+    );
+
+    if (res.success) {
+      setNotification(res.data?.message || 'Event status updated.');
+      fetchData();
+      setTimeout(() => setNotification(null), 4000);
+    } else {
+      setError(res.error?.message || 'Failed to delete or cancel event.');
+    }
   };
 
   const totalRegistrations = events.reduce((acc, curr) => acc + (curr.registeredCount || 0), 0);
@@ -450,9 +473,17 @@ export const OrganizerDashboard: React.FC<OrganizerDashboardProps> = () => {
                           <button
                             onClick={() => handleEdit(ev)}
                             title="Edit Event"
-                            className="p-1.5 rounded-lg bg-[#FBF7EF] hover:bg-[#F7F0E3] text-[#2B211C] border border-[#E6D8C3] transition-colors cursor-pointer"
+                            className="p-1.5 rounded-lg bg-[#FFF8E7] hover:bg-[#D8C3A5]/40 text-[#2B211D] border border-[#D8C3A5] transition-colors cursor-pointer"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+
+                          <button
+                            onClick={() => handleDeleteEvent(ev)}
+                            title="Cancel or Delete Event"
+                            className="p-1.5 rounded-lg bg-[#FFF8E7] hover:bg-[#8B2635]/15 text-[#8B2635] border border-[#D8C3A5] transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </td>

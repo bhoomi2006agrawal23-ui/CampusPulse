@@ -218,4 +218,36 @@ export class AuthController {
       next(err);
     }
   }
+
+  /**
+   * Change Password
+   * POST /api/auth/change-password
+   */
+  static async changePassword(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) {
+        sendError(res, 'UNAUTHORIZED', 'Authentication required', 401);
+        return;
+      }
+      const { currentPassword, newPassword } = req.body;
+      if (!currentPassword || !newPassword) {
+        sendError(res, 'BAD_REQUEST', 'Current password and new password are required', 400);
+        return;
+      }
+
+      const result = await AuthService.changePassword(req.user.id, currentPassword, newPassword);
+      sendSuccess(res, { user: result.user }, 200, 'Password changed successfully');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (message.startsWith('INVALID_CREDENTIALS')) {
+        sendError(res, 'INVALID_CREDENTIALS', 'Current password is incorrect', 401);
+        return;
+      }
+      if (message.startsWith('BAD_REQUEST')) {
+        sendError(res, 'BAD_REQUEST', message.replace(/^BAD_REQUEST:\s*/, ''), 400);
+        return;
+      }
+      next(err);
+    }
+  }
 }

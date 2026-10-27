@@ -5,6 +5,7 @@ import { RegistrationConfirmModal } from './RegistrationConfirmModal.js';
 import { EventFormModal } from './EventFormModal.js';
 import { useAuth } from '../../context/AuthContext.js';
 import { apiClient } from '../../api/client.js';
+import { DecorativeHeroIllustrations } from '../../components/DecorativeIllustrations.js';
 import {
   Search,
   Calendar,
@@ -165,32 +166,35 @@ export const EventCatalog: React.FC<EventCatalogProps> = ({
       )}
 
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#FFFDF8] via-[#FBF7EF] to-[#F7F0E3] border border-[#E6D8C3] p-8 sm:p-12 lg:p-16 shadow-xs">
-        {/* Subtle decorative gold glows */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-[#E2CF9F]/20 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 -mb-20 w-72 h-72 rounded-full bg-[#C6A15B]/10 blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#FFF9F0] via-[#E8DCC6] to-[#B7A89A]/30 border border-[#D7C5AE] p-8 sm:p-12 lg:p-16 shadow-xs">
+        {/* Decorative Floral, Microphone & Speaker Illustrations */}
+        <DecorativeHeroIllustrations />
+
+        {/* Subtle decorative glows */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-[#D7C5AE]/30 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 -mb-20 w-72 h-72 rounded-full bg-[#722F37]/10 blur-3xl pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Hero Copy */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF8] border border-[#E6D8C3] text-[#B58A3A] text-[11px] font-bold tracking-widest uppercase shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#C6A15B]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFCF5] border border-[#D8C3A5] text-[#5A1E2D] text-[11px] font-bold tracking-widest uppercase shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#5A1E2D]" />
               <span>CAMPUS EVENTS • CONNECT • PARTICIPATE</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#1F1713] leading-[1.12]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#2B211D] leading-[1.12]">
               Where Campus Life <br />
-              <span className="font-serif-accent font-semibold italic text-[#C6A15B]">Comes Alive.</span>
+              <span className="font-serif-accent font-semibold italic text-[#5A1E2D]">Comes Alive.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#786B61] max-w-xl leading-relaxed">
-              Discover competitions, workshops, seminars, fests and student activities happening across your campus.
+            <p className="text-base sm:text-lg text-[#857568] max-w-xl leading-relaxed">
+              Discover competitions, technical fests, workshops, seminars, and student activities happening across your campus.
             </p>
 
             <div className="flex flex-wrap items-center gap-3.5 pt-2">
               <button
                 onClick={scrollToCatalog}
-                className="px-6 py-3.5 rounded-2xl bg-[#C6A15B] hover:bg-[#B58A3A] text-[#FFFDF8] font-bold text-sm shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center gap-2"
+                className="px-6 py-3.5 rounded-2xl bg-[#5A1E2D] hover:bg-[#742A3D] text-[#FFF8E7] font-bold text-sm shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center gap-2"
               >
                 <span>Explore Events</span>
                 <ArrowRight className="w-4 h-4" />
@@ -199,27 +203,27 @@ export const EventCatalog: React.FC<EventCatalogProps> = ({
               {isOrganizerOrAdmin && (
                 <button
                   onClick={() => setCreateModalOpen(true)}
-                  className="px-6 py-3.5 rounded-2xl bg-[#FFFDF8] hover:bg-[#FBF7EF] text-[#2B211C] font-semibold text-sm border border-[#E6D8C3] transition-all cursor-pointer flex items-center gap-2 shadow-2xs"
+                  className="px-6 py-3.5 rounded-2xl bg-[#FFFCF5] hover:bg-[#FFF8E7] text-[#2B211D] font-semibold text-sm border border-[#D8C3A5] transition-all cursor-pointer flex items-center gap-2 shadow-2xs"
                 >
-                  <Plus className="w-4 h-4 text-[#C6A15B]" />
+                  <Plus className="w-4 h-4 text-[#5A1E2D]" />
                   <span>Create an Event</span>
                 </button>
               )}
             </div>
 
             {/* Quick stats highlight */}
-            <div className="pt-6 border-t border-[#E6D8C3] grid grid-cols-3 gap-4 max-w-md text-left">
+            <div className="pt-6 border-t border-[#D8C3A5] grid grid-cols-3 gap-4 max-w-md text-left">
               <div>
-                <div className="text-lg sm:text-xl font-bold text-[#2B211C]">{categories.length > 0 ? `${categories.length}` : 'Active'}</div>
-                <div className="text-[11px] text-[#786B61]">Event Categories</div>
+                <div className="text-lg sm:text-xl font-bold text-[#2B211D]">{categories.length > 0 ? `${categories.length}` : 'Active'}</div>
+                <div className="text-[11px] text-[#857568]">Event Categories</div>
               </div>
               <div>
-                <div className="text-lg sm:text-xl font-bold text-[#2B211C]">{venues.length > 0 ? `${venues.length}` : 'Available'}</div>
-                <div className="text-[11px] text-[#786B61]">Campus Venues</div>
+                <div className="text-lg sm:text-xl font-bold text-[#2B211D]">{venues.length > 0 ? `${venues.length}` : 'Available'}</div>
+                <div className="text-[11px] text-[#857568]">Campus Venues</div>
               </div>
               <div>
-                <div className="text-lg sm:text-xl font-bold text-[#2B211C]">Verified</div>
-                <div className="text-[11px] text-[#786B61]">Digital Credentials</div>
+                <div className="text-lg sm:text-xl font-bold text-[#2B211D]">Verified</div>
+                <div className="text-[11px] text-[#857568]">Digital Credentials</div>
               </div>
             </div>
           </div>
@@ -228,36 +232,36 @@ export const EventCatalog: React.FC<EventCatalogProps> = ({
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-sm lg:max-w-none">
               {/* Main Card */}
-              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-[#E6D8C3] bg-[#FFFDF8]">
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-[#D8C3A5] bg-[#FFFCF5]">
                 <img
                   src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=800&q=80"
                   alt="College students participating in campus event"
                   className="w-full h-72 object-cover"
                 />
-                <div className="p-5 space-y-2 bg-[#FFFDF8]">
+                <div className="p-5 space-y-2 bg-[#FFFCF5]">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-[11px] font-semibold text-[#B58A3A]">CAMPUS SPOTLIGHT</span>
-                    <span className="text-[11px] text-[#71866F] font-semibold flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#71866F]"></span> Live System
+                    <span className="text-[11px] font-semibold text-[#5A1E2D]">CAMPUS SPOTLIGHT</span>
+                    <span className="text-[11px] text-[#3D6A4E] font-semibold flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#3D6A4E]"></span> Live System
                     </span>
                   </div>
-                  <h3 className="font-bold text-base text-[#1F1713]">
+                  <h3 className="font-bold text-base text-[#2B211D]">
                     Experience Collegiate Excellence
                   </h3>
-                  <p className="text-xs text-[#786B61]">
+                  <p className="text-xs text-[#857568]">
                     Join departmental student activities, showcase projects, and earn verified credentials.
                   </p>
                 </div>
               </div>
 
               {/* Floating micro-card badge */}
-              <div className="absolute -bottom-4 -left-4 sm:-left-6 bg-[#FFFDF8]/95 backdrop-blur-md p-3.5 rounded-2xl border border-[#E6D8C3] shadow-lg flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#E2CF9F]/40 text-[#B58A3A] flex items-center justify-center">
+              <div className="absolute -bottom-4 -left-4 sm:-left-6 bg-[#FFFCF5]/95 backdrop-blur-md p-3.5 rounded-2xl border border-[#D8C3A5] shadow-lg flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#5A1E2D]/10 text-[#5A1E2D] flex items-center justify-center">
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#2B211C]">Verified Credentials</div>
-                  <div className="text-[10px] text-[#786B61]">Instant certificate verification</div>
+                  <div className="text-xs font-bold text-[#2B211D]">Verified Credentials</div>
+                  <div className="text-[10px] text-[#857568]">Instant certificate verification</div>
                 </div>
               </div>
             </div>

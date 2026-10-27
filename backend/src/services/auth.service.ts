@@ -17,6 +17,8 @@ export interface SafeUser {
   id: string;
   name: string;
   email: string;
+  loginId?: string;
+  mustChangePassword?: boolean;
   role: UserRole;
   collegeName?: string;
   phoneNumber?: string;
@@ -39,6 +41,8 @@ export function toSafeUser(user: any): SafeUser {
     id: user._id ? user._id.toString() : user.id,
     name: user.name,
     email: user.email,
+    loginId: user.loginId || undefined,
+    mustChangePassword: Boolean(user.mustChangePassword),
     role: user.role,
     collegeName: college || undefined,
     phoneNumber: user.phoneNumber,
@@ -58,6 +62,8 @@ interface MemoryUser {
   _id: string;
   name: string;
   email: string;
+  loginId?: string;
+  mustChangePassword?: boolean;
   passwordHash: string;
   role: UserRole;
   collegeName?: string;
@@ -204,14 +210,25 @@ export class AuthService {
     expectedRole?: UserRole,
     expectedCollegeName?: string
   ): Promise<{ user: SafeUser; accessToken: string; refreshToken: string }> {
-    const normalizedEmail = email.toLowerCase().trim();
+    const rawIdentifier = email.trim();
+    const normalizedIdentifier = rawIdentifier.toLowerCase();
     let userRecord: any = null;
 
     if (isDbConnected()) {
-      userRecord = await User.findOne({ email: normalizedEmail }).select('+passwordHash');
+      userRecord = await User.findOne({
+        $or: [
+          { email: normalizedIdentifier },
+          { loginId: normalizedIdentifier },
+          { loginId: rawIdentifier },
+        ],
+      }).select('+passwordHash');
     } else {
       for (const u of memoryStore.users.values()) {
-        if (u.email === normalizedEmail) {
+        if (
+          u.email.toLowerCase() === normalizedIdentifier ||
+          (u.loginId && u.loginId.toLowerCase() === normalizedIdentifier) ||
+          u.loginId === rawIdentifier
+        ) {
           userRecord = u;
           break;
         }
@@ -223,7 +240,7 @@ export class AuthService {
         action: 'AUTH_LOGIN_FAILURE',
         resourceType: 'User',
         success: false,
-        metadata: { attemptedEmail: normalizedEmail },
+        metadata: { attemptedIdentifier: normalizedIdentifier },
         ipAddress: metadata?.ipAddress,
         userAgent: metadata?.userAgent,
       });
@@ -514,5 +531,57 @@ export class AuthService {
       const user = memoryStore.users.get(userId);
       return user ? toSafeUser(user) : null;
     }
+  }
+
+  /**
+   * Securely change user password, clearing mustChangePassword flag.
+   */
+  static async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<{ success: boolean; user: SafeUser }> {
+    if (!newPassword || newPassword.length < 8) {
+      throw new Error('BAD_REQUEST: New password must be at least 8 characters');
+    }
+
+    let userRecord: any = null;
+    if (isDbConnected()) {
+      userRecord = await User.findById(userId).select('+passwordHash');
+    } else {
+      userRecord = memoryStore.users.get(userId);
+    }
+
+    if (!userRecord) {
+      throw new Error('USER_NOT_FOUND: User not found');
+    }
+
+    const matches = await comparePassword(currentPassword, userRecord.passwordHash);
+    if (!matches) {
+      throw new Error('INVALID_CREDENTIALS: Current password is incorrect');
+    }
+
+    const newHash = await hashPassword(newPassword);
+
+    if (isDbConnected()) {
+      userRecord.passwordHash = newHash;
+      userRecord.mustChangePassword = false;
+      await userRecord.save();
+    } else {
+      userRecord.passwordHash = newHash;
+      userRecord.mustChangePassword = false;
+      userRecord.updatedAt = new Date();
+    }
+
+    await AuditLogService.log({
+      actorId: userId,
+      actorRole: userRecord.role,
+      action: 'USER_PASSWORD_CHANGE',
+      resourceType: 'User',
+      resourceId: userId,
+      success: true,
+    });
+
+    return { success: true, user: toSafeUser(userRecord) };
   }
 }

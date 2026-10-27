@@ -1,6 +1,7 @@
 import React from 'react';
-import { Calendar, MapPin, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { getEventImageUrl } from '../../utils/imageAssets.js';
+import { Calendar, MapPin, ArrowRight, CheckCircle2, Building2 } from 'lucide-react';
+import { getEventImageUrl, handleImageFallback } from '../../utils/imageAssets.js';
+import { MusicEventBadgeDecorations } from '../../components/DecorativeIllustrations.js';
 
 export interface EventItem {
   _id?: string;
@@ -70,95 +71,99 @@ export const EventCard: React.FC<EventCardProps> = ({
     switch (status) {
       case 'RegistrationOpen':
         return (
-          <span className="text-[11px] font-semibold text-[#71866F] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#71866F]"></span>
+          <span className="text-[11px] font-semibold text-[#3D6A4E] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3D6A4E]"></span>
             Registration Open
           </span>
         );
       case 'Published':
         return (
-          <span className="text-[11px] font-semibold text-[#C6A15B] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C6A15B]"></span>
+          <span className="text-[11px] font-semibold text-[#5A1E2D] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#5A1E2D]"></span>
             Published
           </span>
         );
       case 'RegistrationClosed':
         return (
-          <span className="text-[11px] font-semibold text-[#786B61] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E6D8C3]"></span>
+          <span className="text-[11px] font-semibold text-[#857568] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D8C3A5]"></span>
             Registration Closed
           </span>
         );
       case 'EventUpcoming':
         return (
-          <span className="text-[11px] font-semibold text-[#B58A3A] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#B58A3A]"></span>
+          <span className="text-[11px] font-semibold text-[#5A1E2D] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#5A1E2D]"></span>
             Upcoming
           </span>
         );
       case 'EventOngoing':
         return (
-          <span className="text-[11px] font-semibold text-[#71866F] flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#71866F] animate-pulse"></span>
+          <span className="text-[11px] font-semibold text-[#3D6A4E] flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3D6A4E] animate-pulse"></span>
             Live Now
           </span>
         );
       case 'EventCompleted':
         return (
-          <span className="text-[11px] font-semibold text-[#786B61]">
+          <span className="text-[11px] font-semibold text-[#857568]">
             Completed
           </span>
         );
       case 'ResultsPublished':
         return (
-          <span className="text-[11px] font-semibold text-[#B58A3A]">
+          <span className="text-[11px] font-semibold text-[#5A1E2D]">
             Results Published
           </span>
         );
       case 'Cancelled':
         return (
-          <span className="text-[11px] font-semibold text-[#A9675D]">
+          <span className="text-[11px] font-semibold text-[#8B2635]">
             Cancelled
           </span>
         );
       default:
         return (
-          <span className="text-[11px] font-semibold text-[#786B61]">
+          <span className="text-[11px] font-semibold text-[#857568]">
             {status}
           </span>
         );
     }
   };
 
-  const capacityPct = Math.min(100, Math.round((event.registeredCount / event.capacity) * 100));
+  const capacityPct = Math.min(100, Math.round((event.registeredCount / (event.capacity || 1)) * 100));
 
   return (
-    <div className="group bg-[#FFFDF8] rounded-3xl border border-[#E6D8C3] overflow-hidden flex flex-col justify-between hover:border-[#C6A15B]/50 hover:shadow-lg transition-all duration-300">
+    <div className="group bg-[#FFFCF5] rounded-3xl border border-[#D8C3A5] overflow-hidden flex flex-col justify-between hover:border-[#5A1E2D]/60 hover:shadow-lg transition-all duration-300">
       <div>
         {/* Event Header Image */}
         <div
           onClick={() => onViewDetails(event)}
-          className="relative h-48 w-full overflow-hidden bg-[#FBF7EF] cursor-pointer"
+          className="relative h-48 w-full overflow-hidden bg-[#FFF8E7] cursor-pointer"
         >
           <img
             src={imageUrl}
             alt={event.title}
+            onError={handleImageFallback}
             loading="lazy"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1F1713]/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2B211D]/70 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
 
           {/* Floating Category Tag */}
-          <div className="absolute top-3.5 left-3.5">
-            <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-[#FFFDF8]/95 backdrop-blur-xs text-[#2B211C] shadow-xs border border-[#E6D8C3]">
+          <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
+            <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-[#FFF9F0]/95 backdrop-blur-xs text-[#352820] shadow-xs border border-[#D7C5AE] flex items-center gap-1.5">
               {categoryName}
+              {/(music|cultural|concert|stage|fest|singing)/i.test(categoryName) && (
+                <MusicEventBadgeDecorations className="ml-1" />
+              )}
             </span>
           </div>
 
           {/* Registered Ribbon */}
           {isRegistered && (
             <div className="absolute top-3.5 right-3.5">
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#71866F] text-[#FFFDF8] shadow-xs flex items-center gap-1">
+              <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#3D6A4E] text-[#FFF8E7] shadow-xs flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3" /> Registered
               </span>
             </div>
@@ -166,7 +171,7 @@ export const EventCard: React.FC<EventCardProps> = ({
 
           {/* Event Code Badge */}
           <div className="absolute bottom-3 left-3.5">
-            <span className="text-[10px] font-mono font-medium text-[#FFFDF8]/90 bg-[#1F1713]/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
+            <span className="text-[10px] font-mono font-medium text-[#FFF8E7]/90 bg-[#2B211D]/70 backdrop-blur-xs px-2 py-0.5 rounded-md">
               {event.eventCode}
             </span>
           </div>
@@ -177,7 +182,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           {/* Status Line */}
           <div className="flex items-center justify-between">
             {getStatusBadge(event.status)}
-            <span className="text-[11px] font-mono text-[#786B61]">
+            <span className="text-[11px] font-mono text-[#857568]">
               {Math.max(0, event.capacity - event.registeredCount)} seats left
             </span>
           </div>
@@ -185,25 +190,33 @@ export const EventCard: React.FC<EventCardProps> = ({
           {/* Title */}
           <h3
             onClick={() => onViewDetails(event)}
-            className="text-base sm:text-lg font-bold text-[#2B211C] hover:text-[#C6A15B] transition-colors cursor-pointer line-clamp-1 leading-snug"
+            className="text-base sm:text-lg font-bold text-[#2B211D] group-hover:text-[#5A1E2D] transition-colors cursor-pointer line-clamp-1 leading-snug"
           >
             {event.title}
           </h3>
 
+          {/* College Name */}
+          {event.collegeName && (
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#5A1E2D]">
+              <Building2 className="w-3 h-3 text-[#5A1E2D] shrink-0" />
+              <span className="truncate">{event.collegeName}</span>
+            </div>
+          )}
+
           {/* Description */}
-          <p className="text-xs text-[#786B61] line-clamp-2 leading-relaxed">
+          <p className="text-xs text-[#857568] line-clamp-2 leading-relaxed">
             {event.description}
           </p>
 
           {/* Event Metadata */}
-          <div className="pt-3 border-t border-[#E6D8C3] space-y-2 text-xs text-[#786B61]">
+          <div className="pt-3 border-t border-[#D8C3A5]/70 space-y-2 text-xs text-[#857568]">
             <div className="flex items-center gap-2">
-              <Calendar className="w-3.5 h-3.5 text-[#C6A15B] shrink-0" />
+              <Calendar className="w-3.5 h-3.5 text-[#5A1E2D] shrink-0" />
               <span className="truncate">{formatEventDate(event.startDateTime)}</span>
             </div>
             {venueName && (
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#C6A15B] shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#5A1E2D] shrink-0" />
                 <span className="truncate">{venueName}</span>
               </div>
             )}
@@ -211,13 +224,13 @@ export const EventCard: React.FC<EventCardProps> = ({
 
           {/* Capacity Progress Bar */}
           <div className="pt-1">
-            <div className="flex justify-between items-center text-[10px] text-[#786B61] mb-1">
+            <div className="flex justify-between items-center text-[10px] text-[#857568] mb-1">
               <span>Enrollment Capacity</span>
-              <span className="font-medium text-[#2B211C]">{event.registeredCount} / {event.capacity}</span>
+              <span className="font-medium text-[#2B211D]">{event.registeredCount} / {event.capacity}</span>
             </div>
-            <div className="w-full bg-[#FBF7EF] h-1.5 rounded-full overflow-hidden border border-[#E6D8C3]/50">
+            <div className="w-full bg-[#FFF8E7] h-1.5 rounded-full overflow-hidden border border-[#D8C3A5]/50">
               <div
-                className="h-full bg-[#C6A15B] rounded-full transition-all duration-300"
+                className="h-full bg-[#5A1E2D] rounded-full transition-all duration-300"
                 style={{ width: `${capacityPct}%` }}
               />
             </div>
@@ -229,7 +242,7 @@ export const EventCard: React.FC<EventCardProps> = ({
       <div className="p-5 sm:p-6 pt-0 flex items-center gap-2.5">
         <button
           onClick={() => onViewDetails(event)}
-          className="flex-1 py-2.5 px-3 rounded-xl border border-[#E6D8C3] bg-[#FBF7EF] hover:bg-[#F7F0E3] text-[#2B211C] text-xs font-semibold transition-colors cursor-pointer text-center"
+          className="flex-1 py-2.5 px-3 rounded-xl border border-[#D8C3A5] bg-[#FFF8E7] hover:bg-[#D8C3A5]/40 text-[#2B211D] text-xs font-semibold transition-colors cursor-pointer text-center"
         >
           View Details
         </button>
@@ -238,7 +251,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           <button
             onClick={() => onRegisterClick(event)}
             disabled={!isRegWindowOpen || isFull || event.status === 'Cancelled' || event.status === 'EventCompleted'}
-            className="flex-1 py-2.5 px-3 rounded-xl bg-[#C6A15B] hover:bg-[#B58A3A] text-[#FFFDF8] text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer text-center shadow-xs hover:shadow-md flex items-center justify-center gap-1"
+            className="flex-1 py-2.5 px-3 rounded-xl bg-[#5A1E2D] hover:bg-[#742A3D] text-[#FFF8E7] text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer text-center shadow-xs hover:shadow-md flex items-center justify-center gap-1"
           >
             <span>{isFull ? 'Sold Out' : 'Register'}</span>
             <ArrowRight className="w-3 h-3" />

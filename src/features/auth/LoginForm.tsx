@@ -21,7 +21,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRole = e.target.value as UserRole | '';
     setSelectedRole(newRole);
-    // Requirement: If the selected role changes, clear entered credentials and update heading
     setEmail('');
     setPassword('');
     setErrorMessage(null);
@@ -56,60 +55,60 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-[#FFFDF9] rounded-3xl border border-[#E7DED4] shadow-sm overflow-hidden text-[#292522]">
+    <div className="w-full max-w-4xl mx-auto bg-[#FFFCF5] rounded-3xl border border-[#D8C3A5] shadow-sm overflow-hidden text-[#2B211D]">
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
         {/* Left / Visual Branding Area */}
-        <div className="lg:col-span-5 bg-gradient-to-br from-[#F8F5F0] via-[#FAF7F2] to-[#E7DED4]/40 p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#E7DED4]">
+        <div className="lg:col-span-5 bg-gradient-to-br from-[#FFF8E7] via-[#FFFCF5] to-[#D8C3A5]/30 p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#D8C3A5]">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFDF9] border border-[#E7DED4] text-[#B97868] text-xs font-semibold shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#B97868]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFFCF5] border border-[#D8C3A5] text-[#5A1E2D] text-xs font-semibold shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#5A1E2D]" />
               <span>CampusPulse Portal</span>
             </div>
 
-            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-[#292522] leading-snug">
+            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-[#2B211D] leading-snug">
               Every college event, <br />
-              <span className="font-serif italic text-[#B97868]">seamlessly managed.</span>
+              <span className="font-serif italic text-[#5A1E2D]">seamlessly managed.</span>
             </h1>
 
-            <p className="text-xs text-[#766E65] leading-relaxed">
+            <p className="text-xs text-[#857568] leading-relaxed">
               Sign in with your verified institutional role to manage campus activities, evaluate candidate projects, coordinate shifts, or participate in events.
             </p>
           </div>
 
           {/* Feature Highlights */}
           <div className="space-y-3 my-6">
-            <div className="flex items-center gap-2.5 text-xs text-[#766E65]">
-              <CheckCircle2 className="w-4 h-4 text-[#6F8B73] shrink-0" />
+            <div className="flex items-center gap-2.5 text-xs text-[#857568]">
+              <CheckCircle2 className="w-4 h-4 text-[#3D6A4E] shrink-0" />
               <span>Role-gated operational workspaces & tools</span>
             </div>
-            <div className="flex items-center gap-2.5 text-xs text-[#766E65]">
-              <CheckCircle2 className="w-4 h-4 text-[#6F8B73] shrink-0" />
+            <div className="flex items-center gap-2.5 text-xs text-[#857568]">
+              <CheckCircle2 className="w-4 h-4 text-[#3D6A4E] shrink-0" />
               <span>Real-time timetables & venue conflict protection</span>
             </div>
-            <div className="flex items-center gap-2.5 text-xs text-[#766E65]">
-              <CheckCircle2 className="w-4 h-4 text-[#6F8B73] shrink-0" />
+            <div className="flex items-center gap-2.5 text-xs text-[#857568]">
+              <CheckCircle2 className="w-4 h-4 text-[#3D6A4E] shrink-0" />
               <span>Standardized rubrics & merit certifications</span>
             </div>
-            <div className="flex items-center gap-2.5 text-xs text-[#766E65]">
-              <CheckCircle2 className="w-4 h-4 text-[#6F8B73] shrink-0" />
+            <div className="flex items-center gap-2.5 text-xs text-[#857568]">
+              <CheckCircle2 className="w-4 h-4 text-[#3D6A4E] shrink-0" />
               <span>Enterprise audit trails & security governance</span>
             </div>
           </div>
 
-          <div className="text-[11px] text-[#766E65] border-t border-[#E7DED4] pt-3 flex items-center justify-between">
+          <div className="text-[11px] text-[#857568] border-t border-[#D8C3A5] pt-3 flex items-center justify-between">
             <span>Institutional Event Management</span>
-            <span className="font-semibold text-[#B97868]">v2.6 Security Hardened</span>
+            <span className="font-semibold text-[#5A1E2D]">v2.7 Secured</span>
           </div>
         </div>
 
         {/* Right / Login Form Area */}
-        <div className="lg:col-span-7 p-8 lg:p-10 flex flex-col justify-center bg-[#FFFDF9]">
+        <div className="lg:col-span-7 p-8 lg:p-10 flex flex-col justify-center bg-[#FFFCF5]">
           {/* Dynamic Header */}
           <div className="mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#292522]">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#5A1E2D]">
               {selectedRole ? `${selectedRole} Login` : 'CampusPulse Sign In'}
             </h2>
-            <p className="text-xs text-[#766E65] mt-1">
+            <p className="text-xs text-[#857568] mt-1">
               {selectedRole
                 ? `Enter your credentials below to access the ${selectedRole.toLowerCase()} workspace.`
                 : 'Select your role to continue.'}
@@ -119,9 +118,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
           {errorMessage && (
             <div
               role="alert"
-              className="mb-5 p-3.5 rounded-xl bg-[#A9675D]/10 border border-[#A9675D]/30 text-[#A9675D] text-xs flex items-start gap-2.5 animate-in fade-in"
+              className="mb-5 p-3.5 rounded-xl bg-[#8B2635]/10 border border-[#8B2635]/30 text-[#8B2635] text-xs flex items-start gap-2.5 animate-in fade-in"
             >
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#A9675D]" />
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-[#8B2635]" />
               <div className="leading-relaxed font-medium">{errorMessage}</div>
             </div>
           )}
@@ -131,9 +130,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
             <div>
               <label
                 htmlFor="role-selection"
-                className="block text-xs font-semibold text-[#292522] mb-1.5"
+                className="block text-xs font-semibold text-[#2B211D] mb-1.5"
               >
-                Select Your Role <span className="text-[#B97868]">*</span>
+                Select Your Role <span className="text-[#5A1E2D]">*</span>
               </label>
               <div className="relative">
                 <select
@@ -141,7 +140,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
                   value={selectedRole}
                   onChange={handleRoleChange}
                   disabled={loading}
-                  className="w-full px-3.5 py-2.5 bg-[#F8F5F0] border border-[#E7DED4] rounded-xl text-xs sm:text-sm text-[#292522] focus:outline-none focus:ring-2 focus:ring-[#B97868]/30 focus:border-[#B97868] transition-all cursor-pointer font-medium disabled:opacity-60"
+                  className="w-full px-3.5 py-2.5 bg-[#FFF8E7] border border-[#D8C3A5] rounded-xl text-xs sm:text-sm text-[#2B211D] focus:outline-none focus:ring-2 focus:ring-[#5A1E2D]/30 focus:border-[#5A1E2D] transition-all cursor-pointer font-medium disabled:opacity-60"
                 >
                   <option value="" disabled>
                     Choose your role
@@ -162,25 +161,30 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
                 <div>
                   <label
                     htmlFor="login-id"
-                    className="block text-xs font-semibold text-[#292522] mb-1"
+                    className="block text-xs font-semibold text-[#2B211D] mb-1"
                   >
-                    Email or Login ID <span className="text-[#B97868]">*</span>
+                    {selectedRole === 'Admin' ? 'Admin ID or Email Address' : 'Email Address or Login ID'}{' '}
+                    <span className="text-[#5A1E2D]">*</span>
                   </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 text-[#766E65] absolute left-3.5 top-3 pointer-events-none" />
+                    <Mail className="w-4 h-4 text-[#857568] absolute left-3.5 top-3 pointer-events-none" />
                     <input
                       id="login-id"
-                      type="email"
+                      type="text"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       disabled={loading}
-                      placeholder={`Enter your ${selectedRole.toLowerCase()} email or ID`}
+                      placeholder={
+                        selectedRole === 'Admin'
+                          ? 'Enter admin1 or admin2 or email'
+                          : `Enter your ${selectedRole.toLowerCase()} email or ID`
+                      }
                       autoComplete="username"
                       autoCapitalize="none"
                       autoCorrect="off"
                       spellCheck="false"
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-[#F8F5F0] border border-[#E7DED4] rounded-xl text-xs sm:text-sm text-[#292522] placeholder-[#766E65]/60 focus:outline-none focus:ring-2 focus:ring-[#B97868]/30 focus:border-[#B97868] transition-all disabled:opacity-60"
+                      className="w-full pl-10 pr-3.5 py-2.5 bg-[#FFF8E7] border border-[#D8C3A5] rounded-xl text-xs sm:text-sm text-[#2B211D] placeholder-[#857568]/60 focus:outline-none focus:ring-2 focus:ring-[#5A1E2D]/30 focus:border-[#5A1E2D] transition-all disabled:opacity-60"
                     />
                   </div>
                 </div>
@@ -189,12 +193,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
                 <div>
                   <label
                     htmlFor="login-password"
-                    className="block text-xs font-semibold text-[#292522] mb-1"
+                    className="block text-xs font-semibold text-[#2B211D] mb-1"
                   >
-                    Password <span className="text-[#B97868]">*</span>
+                    Password <span className="text-[#5A1E2D]">*</span>
                   </label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 text-[#766E65] absolute left-3.5 top-3 pointer-events-none" />
+                    <Lock className="w-4 h-4 text-[#857568] absolute left-3.5 top-3 pointer-events-none" />
                     <input
                       id="login-password"
                       type={showPassword ? 'text' : 'password'}
@@ -204,13 +208,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
                       disabled={loading}
                       placeholder="Enter your password"
                       autoComplete="current-password"
-                      className="w-full pl-10 pr-10 py-2.5 bg-[#F8F5F0] border border-[#E7DED4] rounded-xl text-xs sm:text-sm text-[#292522] placeholder-[#766E65]/60 focus:outline-none focus:ring-2 focus:ring-[#B97868]/30 focus:border-[#B97868] transition-all disabled:opacity-60"
+                      className="w-full pl-10 pr-10 py-2.5 bg-[#FFF8E7] border border-[#D8C3A5] rounded-xl text-xs sm:text-sm text-[#2B211D] placeholder-[#857568]/60 focus:outline-none focus:ring-2 focus:ring-[#5A1E2D]/30 focus:border-[#5A1E2D] transition-all disabled:opacity-60"
                     />
                     <button
                       type="button"
                       tabIndex={-1}
                       onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute right-3 top-2.5 p-0.5 text-[#766E65] hover:text-[#292522] transition-colors cursor-pointer"
+                      className="absolute right-3 top-2.5 p-0.5 text-[#857568] hover:text-[#2B211D] transition-colors cursor-pointer"
                       title={showPassword ? 'Hide password' : 'Show password'}
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
@@ -227,10 +231,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-xl bg-[#B97868] hover:bg-[#A66859] active:bg-[#975C4E] text-[#FFFDF9] font-bold text-xs sm:text-sm shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-[#5A1E2D] hover:bg-[#742A3D] active:bg-[#4E1825] text-[#FFF8E7] font-bold text-xs sm:text-sm shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {loading ? (
-                    <div className="w-4 h-4 border-2 border-[#FFFDF9]/30 border-t-[#FFFDF9] rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-[#FFF8E7]/30 border-t-[#FFF8E7] rounded-full animate-spin" />
                   ) : (
                     <>
                       <span>Sign In as {selectedRole}</span>
@@ -244,24 +248,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegis
 
           {/* Fallback helper when role is not selected */}
           {!selectedRole && (
-            <div className="mt-6 p-4 rounded-2xl bg-[#F8F5F0] border border-[#E7DED4] text-xs text-[#766E65] flex items-center gap-3">
-              <div className="w-8 h-8 rounded-xl bg-[#FFFDF9] border border-[#E7DED4] text-[#B97868] flex items-center justify-center shrink-0">
+            <div className="mt-6 p-4 rounded-2xl bg-[#FFF8E7] border border-[#D8C3A5] text-xs text-[#857568] flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-[#FFFCF5] border border-[#D8C3A5] text-[#5A1E2D] flex items-center justify-center shrink-0">
                 <UserCheck className="w-4 h-4" />
               </div>
               <p className="leading-relaxed">
-                Choose <span className="font-semibold text-[#292522]">Student</span>, <span className="font-semibold text-[#292522]">Organizer</span>, <span className="font-semibold text-[#292522]">Judge</span>, <span className="font-semibold text-[#292522]">Volunteer</span>, or <span className="font-semibold text-[#292522]">Admin</span> from the dropdown above to load your secure sign-in portal.
+                Choose <span className="font-semibold text-[#2B211D]">Student</span>, <span className="font-semibold text-[#2B211D]">Organizer</span>, <span className="font-semibold text-[#2B211D]">Judge</span>, <span className="font-semibold text-[#2B211D]">Volunteer</span>, or <span className="font-semibold text-[#2B211D]">Admin</span> from the dropdown above to load your secure sign-in portal.
               </p>
             </div>
           )}
 
           {/* Student Profile Registration Link */}
           {onSwitchToRegister && (
-            <div className="mt-6 text-center text-xs text-[#766E65] pt-4 border-t border-[#E7DED4]/60">
+            <div className="mt-6 text-center text-xs text-[#857568] pt-4 border-t border-[#D8C3A5]/60">
               New student to CampusPulse?{' '}
               <button
                 type="button"
                 onClick={onSwitchToRegister}
-                className="font-bold text-[#B97868] hover:text-[#A66859] hover:underline cursor-pointer"
+                className="font-bold text-[#5A1E2D] hover:text-[#742A3D] hover:underline cursor-pointer"
               >
                 Create a student profile
               </button>

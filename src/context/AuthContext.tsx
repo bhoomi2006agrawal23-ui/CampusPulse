@@ -8,6 +8,8 @@ export interface UserProfile {
   name: string;
   email: string;
   role: UserRole;
+  loginId?: string;
+  mustChangePassword?: boolean;
   collegeName?: string;
   phoneNumber?: string;
   bio?: string;

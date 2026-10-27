@@ -4,10 +4,18 @@ import { Event, IEvent } from '../models/Event.js';
 import { Category } from '../models/Category.js';
 import { Venue } from '../models/Venue.js';
 import { User } from '../models/User.js';
+import { Registration } from '../models/Registration.js';
+import { Result } from '../models/Result.js';
 import { ROLES, UserRole } from '../constants/roles.js';
 import { EventLifecycleState, CANCELLABLE_STATES } from '../constants/lifecycle.js';
 import { LifecycleService } from './lifecycle.service.js';
-import { VenueService, memoryEvents, MemoryEvent } from './venue.service.js';
+import {
+  VenueService,
+  memoryEvents,
+  MemoryEvent,
+  memoryRegistrations,
+  memoryResults,
+} from './venue.service.js';
 import { isDbConnected } from '../config/db.js';
 import { memoryStore } from './auth.service.js';
 import { AuditLogService } from './audit.service.js';
@@ -572,6 +580,142 @@ export class EventService {
         limit,
         totalPages: Math.ceil(total / limit) || 1,
       };
+    }
+  }
+
+  /**
+   * Delete or Cancel Event with full RBAC and data-safety protection.
+   * If the event has existing registrations, results, or certificates, safe cancellation
+   * is applied rather than destroying relational integrity.
+   */
+  static async deleteEvent(
+    eventId: string,
+    requestUser: { id: string; role: UserRole }
+  ): Promise<{ action: 'deleted' | 'cancelled'; event?: any; message: string }> {
+    const existing = await this.getEventRaw(eventId);
+    if (!existing) {
+      throw new Error('EVENT_NOT_FOUND: Event record does not exist');
+    }
+
+    // RBAC: Organizer can only delete/cancel their own events; Admin can delete/cancel any
+    const isOwner =
+      requestUser.role === ROLES.ADMIN ||
+      (existing.organizerId && existing.organizerId.toString() === requestUser.id);
+
+    if (!isOwner) {
+      throw new Error(
+        'UNAUTHORIZED_EVENT_ACCESS: You do not have permission to delete or cancel this event'
+      );
+    }
+
+    if (isDbConnected()) {
+      const regCount = await Registration.countDocuments({
+        eventId: new mongoose.Types.ObjectId(eventId),
+      });
+      const resCount = await Result.countDocuments({
+        eventId: new mongoose.Types.ObjectId(eventId),
+      });
+
+      if (regCount > 0 || resCount > 0) {
+        // Safe cancellation workflow
+        const updated = await Event.findByIdAndUpdate(
+          eventId,
+          { status: 'Cancelled' },
+          { new: true }
+        );
+
+        await AuditLogService.log({
+          actorId: requestUser.id,
+          actorRole: requestUser.role,
+          action: 'EVENT_STATUS_CHANGE',
+          resourceType: 'Event',
+          resourceId: eventId,
+          eventId,
+          metadata: {
+            fromStatus: existing.status,
+            toStatus: 'Cancelled',
+            reason: 'Cancelled via Organizer/Admin event management desk',
+            activeRegistrations: regCount,
+            activeResults: resCount,
+          },
+        });
+
+        return {
+          action: 'cancelled',
+          event: updated,
+          message:
+            `Event has ${regCount} existing registration(s) or results. To protect data integrity and historical audit records, the event has been safely marked as Cancelled.`,
+        };
+      } else {
+        // Safe permanent deletion
+        await Event.findByIdAndDelete(eventId);
+
+        await AuditLogService.log({
+          actorId: requestUser.id,
+          actorRole: requestUser.role,
+          action: 'EVENT_DELETE',
+          resourceType: 'Event',
+          resourceId: eventId,
+          eventId,
+          metadata: { title: existing.title, eventCode: existing.eventCode },
+        });
+
+        return {
+          action: 'deleted',
+          message: 'Event and associated draft records have been permanently deleted.',
+        };
+      }
+    } else {
+      const regCount = Array.from(memoryRegistrations.values()).filter(
+        (r) => r.eventId === eventId
+      ).length;
+      const resCount = Array.from(memoryResults.values()).filter(
+        (r) => r.eventId === eventId
+      ).length;
+
+      if (regCount > 0 || resCount > 0) {
+        existing.status = 'Cancelled';
+        existing.updatedAt = new Date();
+
+        await AuditLogService.log({
+          actorId: requestUser.id,
+          actorRole: requestUser.role,
+          action: 'EVENT_STATUS_CHANGE',
+          resourceType: 'Event',
+          resourceId: eventId,
+          eventId,
+          metadata: {
+            fromStatus: 'Draft',
+            toStatus: 'Cancelled',
+            reason: 'Cancelled via Organizer/Admin event management desk',
+            activeRegistrations: regCount,
+          },
+        });
+
+        return {
+          action: 'cancelled',
+          event: existing,
+          message:
+            `Event has ${regCount} existing registration(s). To protect data integrity, the event has been safely marked as Cancelled.`,
+        };
+      } else {
+        memoryEvents.delete(eventId);
+
+        await AuditLogService.log({
+          actorId: requestUser.id,
+          actorRole: requestUser.role,
+          action: 'EVENT_DELETE',
+          resourceType: 'Event',
+          resourceId: eventId,
+          eventId,
+          metadata: { title: existing.title, eventCode: existing.eventCode },
+        });
+
+        return {
+          action: 'deleted',
+          message: 'Event and associated draft records have been permanently deleted.',
+        };
+      }
     }
   }
 }

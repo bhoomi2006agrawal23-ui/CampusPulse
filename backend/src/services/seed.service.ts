@@ -31,14 +31,42 @@ import {
 
 export const SEED_USERS = [
   {
+    id: '6ac25fb6e90fec98e2f5676a',
+    name: 'Administrator 1',
+    loginId: 'admin1',
+    email: 'admin1@campuspulse.edu',
+    password: 'admin1234',
+    role: ROLES.ADMIN as UserRole,
+    collegeName: 'CampusPulse Institute of Technology',
+    bio: 'System Administrator (admin1)',
+    phoneNumber: '+91 98765 00001',
+    mustChangePassword: true,
+    profileInfo: { department: 'System Administration', studentId: 'ADM-01', year: 2026, collegeName: 'CampusPulse Institute of Technology' },
+  },
+  {
+    id: '6ac25fb6e90fec98e2f5676b',
+    name: 'Administrator 2',
+    loginId: 'admin2',
+    email: 'admin2@campuspulse.edu',
+    password: 'admin1234',
+    role: ROLES.ADMIN as UserRole,
+    collegeName: 'CampusPulse Institute of Technology',
+    bio: 'Operations Administrator (admin2)',
+    phoneNumber: '+91 98765 00002',
+    mustChangePassword: true,
+    profileInfo: { department: 'System Administration', studentId: 'ADM-02', year: 2026, collegeName: 'CampusPulse Institute of Technology' },
+  },
+  {
     id: '6ac25fb6e90fec98e2f56761',
     name: 'Eleanor Vance (Admin)',
+    loginId: 'admin',
     email: 'admin@campuspulse.edu',
     password: 'Password123!',
     role: ROLES.ADMIN as UserRole,
     collegeName: 'CampusPulse Institute of Technology',
     bio: 'CampusPulse Lead Administrator & Dean of Student Activities',
-    phoneNumber: '+1-555-0100',
+    phoneNumber: '+91 98765 00100',
+    mustChangePassword: false,
     profileInfo: { department: 'Administration', studentId: 'ADM-001', year: 2026, collegeName: 'CampusPulse Institute of Technology' },
   },
   {
@@ -277,6 +305,8 @@ export async function seedDevelopmentData(): Promise<void> {
         _id: user.id,
         name: user.name,
         email: user.email,
+        loginId: (user as any).loginId,
+        mustChangePassword: (user as any).mustChangePassword,
         passwordHash,
         role: user.role,
         collegeName: user.collegeName,
@@ -289,6 +319,7 @@ export async function seedDevelopmentData(): Promise<void> {
       });
     } else {
       existing.collegeName = user.collegeName;
+      if ((user as any).loginId) existing.loginId = (user as any).loginId;
       existing.profileInfo = { ...existing.profileInfo, collegeName: user.collegeName };
     }
   }
@@ -395,13 +426,18 @@ export async function seedDevelopmentData(): Promise<void> {
   if (isDbConnected()) {
     try {
       for (const u of SEED_USERS) {
-        const exists = await User.findOne({ email: u.email });
+        const query = (u as any).loginId
+          ? { $or: [{ email: u.email }, { loginId: (u as any).loginId }] }
+          : { email: u.email };
+        const exists = await User.findOne(query);
         if (!exists) {
           const passwordHash = await hashPassword(u.password);
           await User.create({
             _id: new mongoose.Types.ObjectId(u.id),
             name: u.name,
             email: u.email,
+            loginId: (u as any).loginId,
+            mustChangePassword: (u as any).mustChangePassword,
             passwordHash,
             role: u.role,
             collegeName: u.collegeName,
@@ -410,9 +446,10 @@ export async function seedDevelopmentData(): Promise<void> {
             profileInfo: u.profileInfo,
             status: 'Active',
           });
-        } else if (!exists.collegeName) {
-          exists.collegeName = u.collegeName;
-          if (exists.profileInfo) {
+        } else {
+          if (!exists.collegeName) exists.collegeName = u.collegeName;
+          if (!exists.loginId && (u as any).loginId) exists.loginId = (u as any).loginId;
+          if (exists.profileInfo && !exists.profileInfo.collegeName) {
             exists.profileInfo.collegeName = u.collegeName;
           }
           await exists.save();

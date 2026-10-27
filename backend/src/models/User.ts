@@ -5,6 +5,8 @@ export interface IUser extends Document {
   _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
+  loginId?: string;
+  mustChangePassword?: boolean;
   passwordHash: string;
   role: UserRole;
   collegeName?: string;
@@ -30,6 +32,18 @@ const UserSchema = new Schema<IUser>(
       trim: true,
       minlength: [2, 'Name must be at least 2 characters'],
       maxlength: [100, 'Name cannot exceed 100 characters'],
+    },
+    loginId: {
+      type: String,
+      required: false,
+      sparse: true,
+      trim: true,
+      lowercase: true,
+      maxlength: [50, 'Login ID cannot exceed 50 characters'],
+    },
+    mustChangePassword: {
+      type: Boolean,
+      default: false,
     },
     collegeName: {
       type: String,
@@ -90,6 +104,7 @@ const UserSchema = new Schema<IUser>(
 );
 
 UserSchema.index({ email: 1 }, { unique: true });
+UserSchema.index({ loginId: 1 }, { unique: true, sparse: true });
 UserSchema.index({ role: 1 });
 UserSchema.index({ status: 1 });
 

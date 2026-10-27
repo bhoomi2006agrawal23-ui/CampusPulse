@@ -22,4 +22,7 @@ router.post('/logout', AuthController.logout);
 // Current user profile
 router.get('/me', authenticate, AuthController.getCurrentUser);
 
+// Password change
+router.post('/change-password', authenticate, AuthController.changePassword);
+
 export default router;
