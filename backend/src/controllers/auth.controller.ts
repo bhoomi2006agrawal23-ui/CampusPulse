@@ -6,22 +6,24 @@ import { config } from '../config/env.js';
 const REFRESH_COOKIE_NAME = 'campus_pulse_rt';
 
 // Helper to set locked HttpOnly refresh cookie
-function setRefreshCookie(res: Response, refreshToken: string) {
+function setRefreshCookie(req: Request, res: Response, refreshToken: string) {
+  const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https' || config.IS_PRODUCTION;
   res.cookie(REFRESH_COOKIE_NAME, refreshToken, {
     httpOnly: true,
-    secure: config.IS_PRODUCTION,
-    sameSite: config.IS_PRODUCTION ? 'none' : 'lax',
+    secure: isHttps,
+    sameSite: isHttps ? 'none' : 'lax',
     maxAge: config.REFRESH_TOKEN_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
     path: '/api/auth',
     ...(config.COOKIE_DOMAIN ? { domain: config.COOKIE_DOMAIN } : {}),
   });
 }
 
-function clearRefreshCookie(res: Response) {
+function clearRefreshCookie(req: Request, res: Response) {
+  const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https' || config.IS_PRODUCTION;
   res.clearCookie(REFRESH_COOKIE_NAME, {
     httpOnly: true,
-    secure: config.IS_PRODUCTION,
-    sameSite: config.IS_PRODUCTION ? 'none' : 'lax',
+    secure: isHttps,
+    sameSite: isHttps ? 'none' : 'lax',
     path: '/api/auth',
     ...(config.COOKIE_DOMAIN ? { domain: config.COOKIE_DOMAIN } : {}),
   });
@@ -45,7 +47,7 @@ export class AuthController {
       });
 
       // Locked requirement: Refresh token strictly in HttpOnly cookie, NEVER in JSON response
-      setRefreshCookie(res, result.refreshToken);
+      setRefreshCookie(req, res, result.refreshToken);
 
       sendSuccess(
         res,
@@ -80,7 +82,7 @@ export class AuthController {
 
       const result = await AuthService.login(email, password, metadata, role, collegeName);
 
-      setRefreshCookie(res, result.refreshToken);
+      setRefreshCookie(req, res, result.refreshToken);
 
       sendSuccess(
         res,
@@ -145,7 +147,7 @@ export class AuthController {
       const result = await AuthService.rotateRefreshToken(refreshToken, metadata);
 
       // Rotate cookie
-      setRefreshCookie(res, result.newRefreshToken);
+      setRefreshCookie(req, res, result.newRefreshToken);
 
       sendSuccess(
         res,
@@ -158,7 +160,7 @@ export class AuthController {
       );
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      clearRefreshCookie(res);
+      clearRefreshCookie(req, res);
 
       if (message.includes('TOKEN_REUSE_DETECTED')) {
         sendError(
@@ -187,7 +189,7 @@ export class AuthController {
       if (refreshToken) {
         await AuthService.logout(refreshToken);
       }
-      clearRefreshCookie(res);
+      clearRefreshCookie(req, res);
       sendSuccess(res, { loggedOut: true }, 200, 'Logged out successfully');
     } catch (err: unknown) {
       next(err);

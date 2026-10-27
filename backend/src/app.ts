@@ -24,13 +24,20 @@ export function createApp(): Express {
     config.FRONTEND_URL,
     'http://localhost:3000',
     'http://localhost:5173',
-  ];
+    process.env.APP_URL,
+  ].filter(Boolean) as string[];
 
   app.use(
     cors({
       origin: (origin, callback) => {
         // Allow requests with no origin (e.g. mobile apps, curl, same-origin)
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (
+          !origin ||
+          allowedOrigins.includes(origin) ||
+          /\.run\.app$/.test(origin) ||
+          /\.aistudio\.google$/.test(origin) ||
+          /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+        ) {
           callback(null, true);
         } else {
           callback(null, false);
