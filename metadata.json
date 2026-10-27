@@ -1,0 +1,6 @@
+{
+  "name": "CampusPulse",
+  "description": "Centralized College Event Management Web Application",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
