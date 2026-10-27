@@ -430,8 +430,8 @@ export async function seedDevelopmentData(): Promise<void> {
           ? { $or: [{ email: u.email }, { loginId: (u as any).loginId }] }
           : { email: u.email };
         const exists = await User.findOne(query);
+        const passwordHash = await hashPassword(u.password);
         if (!exists) {
-          const passwordHash = await hashPassword(u.password);
           await User.create({
             _id: new mongoose.Types.ObjectId(u.id),
             name: u.name,
@@ -447,8 +447,10 @@ export async function seedDevelopmentData(): Promise<void> {
             status: 'Active',
           });
         } else {
+          exists.passwordHash = passwordHash;
+          if ((u as any).loginId) exists.loginId = (u as any).loginId;
+          if ((u as any).mustChangePassword !== undefined) exists.mustChangePassword = (u as any).mustChangePassword;
           if (!exists.collegeName) exists.collegeName = u.collegeName;
-          if (!exists.loginId && (u as any).loginId) exists.loginId = (u as any).loginId;
           if (exists.profileInfo && !exists.profileInfo.collegeName) {
             exists.profileInfo.collegeName = u.collegeName;
           }
